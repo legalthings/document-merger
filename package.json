@@ -1,0 +1,27 @@
+{
+  "name": "document-merger",
+  "version": "1.0.0",
+  "description": "Merges documents",
+  "main": "src/document-merger.js",
+  "scripts": {
+    "test": "node ./node_modules/mocha/bin/mocha ./tests --recursive"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/legalthings/document-merger.git"
+  },
+  "author": "LegalThings",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/legalthings/document-merger/issues"
+  },
+  "homepage": "https://github.com/legalthings/document-merger#readme",
+  "dependencies": {
+    "camelcase": "^3.0.0",
+    "cheerio": "^0.22.0",
+    "html-minifier": "^3.0.2"
+  },
+  "devDependencies": {
+    "mocha": "^3.0.2"
+  }
+}
