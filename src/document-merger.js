@@ -73,7 +73,7 @@ class DocumentMerger {
      * @param {object} $result
      */
     appendPdfBody (doc, $result) {
-        // @todo: Convert pdf to html or plain text and then append it to result
+        // @todo: Convert pdf to html and then append it to result
     }
 
     /**
@@ -84,7 +84,7 @@ class DocumentMerger {
      * @param {object} $result
      */
     appendDocxBody (doc, $result) {
-        // @todo: Convert docx to html or plain text and then append it to result
+        // @todo: Convert docx to html and then append it to result
     }
 }
 

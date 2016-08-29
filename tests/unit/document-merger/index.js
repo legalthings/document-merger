@@ -1,21 +1,24 @@
 'use strict';
 
 const assert = require('assert');
+const chai = require('chai');
 const DocumentMerger = require('../../../src/document-merger.js');
 const merger = new DocumentMerger();
 const minify = require('html-minifier').minify;
 const htmlDocuments = require('../../data/documents/html');
 
-describe('DocumentMerger', function () {
-    describe('#merge()', function () {
+describe('DocumentMerger', () => {
+    describe('#merge()', () => {
         it('should merge html documents', testMergeHTMLDocuments);
         it('should merge html documents with glue', testMergeHTMLDocumentsWithGlue);
+        it('should throw exception if no document type is given', testMergeDocumentsTypeException);
+        it('should throw exception if no document content is given', testMergeDocumentsNoContentException);
     });
 });
 
 function testMergeHTMLDocuments () {
     let options = {
-        documents: [ ...htmlDocuments ]
+        documents: htmlDocuments
     };
 
     assert.equal(merger.merge(options), minify(`
@@ -37,7 +40,7 @@ function testMergeHTMLDocuments () {
 
 function testMergeHTMLDocumentsWithGlue () {
     let options = {
-        documents: [ ...htmlDocuments ],
+        documents: htmlDocuments,
         glue: '<p>Custom glue</p>'
     };
 
@@ -56,4 +59,29 @@ function testMergeHTMLDocumentsWithGlue () {
     `, {
         collapseWhitespace: true
     }));
+}
+
+function testMergeDocumentsTypeException () {
+    let options = {
+        documents: [
+            {
+                content: `<html></html>`
+            }
+        ]
+    };
+
+    chai.expect(() => merger.merge(options)).to.throw('options.documents[0].type should be set');
+}
+
+function testMergeDocumentsNoContentException () {
+    let options = {
+        documents: [
+            {
+                content: null,
+                type: 'html'
+            }
+        ]
+    };
+
+    chai.expect(() => merger.merge(options)).to.throw('options.documents[0].content should be set');
 }
