@@ -62,6 +62,8 @@ class DocumentMerger {
 
         if ($document('body').length) {
             $result('body').append($document('body').html());
+        } else {
+            $result('body').append($document.html());
         }
     }
 
