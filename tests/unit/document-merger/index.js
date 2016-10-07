@@ -9,12 +9,40 @@ const htmlDocuments = require('../../data/documents/html');
 
 describe('DocumentMerger', () => {
     describe('#merge()', () => {
+        it('should merge html', testMergeHTML);
         it('should merge html documents', testMergeHTMLDocuments);
         it('should merge html documents with glue', testMergeHTMLDocumentsWithGlue);
         it('should throw exception if no document type is given', testMergeDocumentsTypeException);
         it('should throw exception if no document content is given', testMergeDocumentsNoContentException);
     });
 });
+
+function testMergeHTML() {
+    let options = {
+        documents: [
+            {
+                content: '<h1>Hello</h1>',
+                type: 'html'
+            },
+            {
+                content: '<h2>World</h2>',
+                type: 'html'
+            }
+        ]
+    };
+
+    assert.equal(merger.merge(options), minify(`
+        <html>
+            <body>
+                <h1>Hello</h1>
+                <div class="pagebreak"></div>
+                <h2>World</h2>
+            </body>
+        </html>
+    `, {
+        collapseWhitespace: true
+    }));
+}
 
 function testMergeHTMLDocuments () {
     let options = {
