@@ -22,6 +22,7 @@ function testMergeHTMLDocuments () {
     };
 
     assert.equal(merger.merge(options), minify(`
+        <!doctype html>
         <html>
           <head>
             <base href="http://example.com/cdn">
@@ -45,6 +46,7 @@ function testMergeHTMLDocumentsWithGlue () {
     };
 
     assert.equal(merger.merge(options), minify(`
+        <!doctype html>
         <html>
           <head>
             <base href="http://example.com/cdn">
