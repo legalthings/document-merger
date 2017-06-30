@@ -22,7 +22,7 @@ class DocumentMerger {
 
         let documents = options.documents;
         let glue = options.glue || '<div class="pagebreak"></div>';
-        let $result = cheerio.load('<html><body></body></html>');
+        let $result = cheerio.load('<!doctype html><html><body></body></html>');
 
         for (let i = 0; i < documents.length; i++) {
             if (!documents[i].content) {
