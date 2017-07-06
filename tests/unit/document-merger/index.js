@@ -36,7 +36,7 @@ function testMergeHTML() {
         <html>
             <body>
                 <h1>Hello</h1>
-                <div class="pagebreak"></div>
+                <div style="page-break-after: always"><span style="display:none">&#xA0;</span></div>
                 <h2>World</h2>
             </body>
         </html>
@@ -58,7 +58,7 @@ function testMergeHTMLDocuments () {
           </head>
           <body>
             <p>This is the first document</p>
-            <div class="pagebreak"></div>
+            <div style="page-break-after: always"><span style="display:none">&#xA0;</span></div>
             <p>This is the second document</p>
             <b>It ends here</b>
           </body>

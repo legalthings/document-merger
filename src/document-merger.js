@@ -21,7 +21,7 @@ class DocumentMerger {
         }
 
         let documents = options.documents;
-        let glue = options.glue || '<div class="pagebreak"></div>';
+        let glue = options.glue || '<div style="page-break-after: always"><span style="display:none">&#xA0;</span></div>'; // pagebreak must not be empty
         let $result = cheerio.load('<!doctype html><html><body></body></html>');
 
         for (let i = 0; i < documents.length; i++) {
