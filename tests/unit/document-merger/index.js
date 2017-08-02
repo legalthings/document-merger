@@ -12,6 +12,7 @@ describe('DocumentMerger', () => {
         it('should merge html', testMergeHTML);
         it('should merge html documents', testMergeHTMLDocuments);
         it('should merge html documents with glue', testMergeHTMLDocumentsWithGlue);
+        it('should merge html documents with the head option', testMergeHTMLDocumentsWithHeadOption);
         it('should throw exception if no document type is given', testMergeDocumentsTypeException);
         it('should throw exception if no document content is given', testMergeDocumentsNoContentException);
     });
@@ -83,6 +84,31 @@ function testMergeHTMLDocumentsWithGlue () {
           <body>
             <p>This is the first document</p>
             <p>Custom glue</p>
+            <p>This is the second document</p>
+            <b>It ends here</b>
+          </body>
+        </html>
+    `, {
+        collapseWhitespace: true
+    }));
+}
+
+function testMergeHTMLDocumentsWithHeadOption () {
+    let options = {
+        documents: htmlDocuments,
+        head: '<style>body {margin: 0}</style>'
+    };
+
+    assert.equal(merger.merge(options), minify(`
+        <!doctype html>
+        <html>
+          <head>
+            <base href="http://example.com/cdn">
+            <style>body {margin: 0}</style>
+          </head>
+          <body>
+            <p>This is the first document</p>
+            <div style="page-break-after: always"><span style="display:none">&#xA0;</span></div>
             <p>This is the second document</p>
             <b>It ends here</b>
           </body>
