@@ -51,7 +51,8 @@ let options = {
             type: 'html'
         }
     ],
-    glue: '<div class="pagebreak"></div>' // default
+    glue: '<div style="page-break-after: always"><span style="display:none">&#xA0;</span></div>',
+    head: '<style>body {margin: 0}</style>'
 };
 
 console.log(merger.merge(options));
@@ -60,10 +61,11 @@ output:
 <html>
   <head>
     <base href="http://example.com/cdn">
+    <style>body {margin: 0}</style>
   </head>
   <body>
     <p>This is the first document</p>
-    <div class="pagebreak"></div>
+    <div style="page-break-after: always"><span style="display:none">&#xA0;</span></div>
     <p>This is the second document</p>
     <b>It ends here</b>
   </body>

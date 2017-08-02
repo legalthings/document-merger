@@ -12,7 +12,11 @@ class DocumentMerger {
      * Merge documents of any type
      *
      * @public
-     * @param {object} options Mapping: { documents: [{content: String, type: String} ...], glue: String }
+     * @param {object} options Mapping: {
+                                 documents: [{content: String, type: String} ...],
+                                 glue: String,
+                                 head: String
+                               }
      * @param {string}
      */
     merge (options) {
@@ -20,9 +24,10 @@ class DocumentMerger {
             throw new TypeError('options.documents should be set and must be an array');
         }
 
-        let documents = options.documents;
-        let glue = options.glue || '<div style="page-break-after: always"><span style="display:none">&#xA0;</span></div>'; // pagebreak must not be empty
-        let $result = cheerio.load('<!doctype html><html><body></body></html>');
+        const documents = options.documents;
+        const glue = options.glue || '<div style="page-break-after: always"><span style="display:none">&#xA0;</span></div>'; // pagebreak must not be empty
+        const template = `<!doctype html><html><body></body></html>`;
+        const $result = cheerio.load(template);
 
         for (let i = 0; i < documents.length; i++) {
             if (!documents[i].content) {
@@ -33,8 +38,8 @@ class DocumentMerger {
                 throw new TypeError(`options.documents[${i}].type should be set`);
             }
 
-            let type = documents[i].type;
-            this[camelCase(`append_${type}_body`)](documents[i], $result);
+            const type = documents[i].type;
+            this[camelCase(`append_${type}_body`)](documents[i], $result, options);
 
             if (i < documents.length - 1) {
                 $result('body').append(glue);
@@ -52,12 +57,14 @@ class DocumentMerger {
      * @protected
      * @param {object} doc
      * @param {object} $result
+     * @param {object} options
      */
-    appendHtmlBody (doc, $result) {
-        let $document = cheerio.load(doc.content);
+    appendHtmlBody (doc, $result, options) {
+        const $document = cheerio.load(doc.content);
 
         if (!$result('head').length && $document('head').length) {
-            $result('html').prepend('<head>' + $document('head').html() + '</head>');
+            const head = options.head || '';
+            $result('html').prepend('<head>' + $document('head').html() + head + '</head>');
         }
 
         if ($document('body').length) {
